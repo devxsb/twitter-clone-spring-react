@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity(name = "users")
 @SuperBuilder
@@ -18,5 +18,5 @@ public class User extends BaseEntity {
     private String email;
     private String username;
     private String password;
-    private Date dateOfBirth;
+    private LocalDate birthday;
 }

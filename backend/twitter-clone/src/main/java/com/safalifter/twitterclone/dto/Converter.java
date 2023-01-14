@@ -10,6 +10,6 @@ public class Converter {
                 .name(from.getName())
                 .email(from.getEmail())
                 .username(from.getUsername())
-                .dateOfBirth(from.getDateOfBirth()).build();
+                .birthday(from.getBirthday()).build();
     }
 }

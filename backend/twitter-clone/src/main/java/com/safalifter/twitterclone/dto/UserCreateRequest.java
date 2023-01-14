@@ -2,7 +2,7 @@ package com.safalifter.twitterclone.dto;
 
 import lombok.Getter;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 public class UserCreateRequest {
@@ -10,5 +10,5 @@ public class UserCreateRequest {
     private String username;
     private String email;
     private String password;
-    private Date dateOfBirth;
+    private LocalDate birthday;
 }

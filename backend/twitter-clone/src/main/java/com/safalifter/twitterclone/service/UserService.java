@@ -20,7 +20,7 @@ public class UserService {
                 .email(from.getEmail())
                 .username(from.getUsername())
                 .password(from.getPassword())
-                .dateOfBirth(from.getDateOfBirth()).build();
+                .birthday(from.getBirthday()).build();
         return converter.userConvertToUserDto(userRepository.save(user));
     }
 }
