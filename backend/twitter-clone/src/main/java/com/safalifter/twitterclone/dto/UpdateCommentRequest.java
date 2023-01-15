@@ -3,7 +3,6 @@ package com.safalifter.twitterclone.dto;
 import lombok.Getter;
 
 @Getter
-public class TweetCreateRequest {
+public class UpdateCommentRequest {
     private String text;
-    private Long userId;
 }

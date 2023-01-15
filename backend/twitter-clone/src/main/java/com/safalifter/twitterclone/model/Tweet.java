@@ -20,6 +20,9 @@ public class Tweet extends BaseEntity {
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Like> likes;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 }
