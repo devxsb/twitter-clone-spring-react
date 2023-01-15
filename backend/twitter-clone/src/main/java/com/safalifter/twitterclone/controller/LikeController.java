@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1/likes")
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping
-    ResponseEntity<LikeDto> create(@RequestBody LikeCreateRequest request) {
+    ResponseEntity<LikeDto> create(@Valid @RequestBody LikeCreateRequest request) {
         return ResponseEntity.status(201).body(likeService.create(request));
     }
 

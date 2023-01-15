@@ -6,8 +6,10 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,9 +20,16 @@ import java.util.List;
 @Setter
 public class User extends BaseEntity {
     private String name;
+
+    @Column(unique = true)
     private String email;
+    // unique problem will resolve with auth
+    @Column(unique = true)
     private String username;
+
+    @Size(min = 8, max = 16)
     private String password;
+
     private LocalDate birthday;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

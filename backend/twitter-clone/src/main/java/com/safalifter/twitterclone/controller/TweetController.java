@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class TweetController {
     private final TweetService tweetService;
 
     @PostMapping
-    ResponseEntity<TweetDto> create(@RequestBody TweetCreateRequest request) {
+    ResponseEntity<TweetDto> create(@Valid @RequestBody TweetCreateRequest request) {
         return ResponseEntity.status(201).body(tweetService.create(request));
     }
 
