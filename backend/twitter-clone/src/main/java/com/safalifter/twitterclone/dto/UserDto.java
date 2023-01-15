@@ -15,4 +15,5 @@ public class UserDto {
     private String username;
     private LocalDate birthday;
     private List<TweetDto> tweets;
+    private List<LikeDto> likes;
 }

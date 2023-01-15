@@ -1,9 +1,6 @@
 package com.safalifter.twitterclone.dto;
 
-import com.safalifter.twitterclone.model.Comment;
-import com.safalifter.twitterclone.model.Like;
-import com.safalifter.twitterclone.model.Tweet;
-import com.safalifter.twitterclone.model.User;
+import com.safalifter.twitterclone.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -16,7 +13,9 @@ public class Converter {
                 .email(from.getEmail())
                 .username(from.getUsername())
                 .birthday(from.getBirthday())
-                .tweets(from.getTweets().stream().map(this::tweetConvertToTweetDto)
+                .tweets(from.getTweets().stream()
+                        .map(this::tweetConvertToTweetDto).collect(Collectors.toList()))
+                .likes(from.getLikes().stream().map(this::likeConvertToLikeDto)
                         .collect(Collectors.toList())).build();
     }
 
@@ -40,6 +39,14 @@ public class Converter {
 
     public CommentDto commentConvertToCommentDto(Comment from) {
         return CommentDto.builder()
+                .id(from.getId())
+                .text(from.getText())
+                .userId(from.getUser().getId())
+                .tweetId(from.getTweet().getId()).build();
+    }
+
+    public RetweetDto retweetConvertToRetweetDto(Retweet from) {
+        return RetweetDto.builder()
                 .id(from.getId())
                 .text(from.getText())
                 .userId(from.getUser().getId())
