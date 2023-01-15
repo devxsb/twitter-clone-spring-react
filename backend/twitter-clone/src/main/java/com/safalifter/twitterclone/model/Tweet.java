@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @SuperBuilder
@@ -18,4 +19,7 @@ public class Tweet extends BaseEntity {
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL)
+    private List<Like> likes;
 }
