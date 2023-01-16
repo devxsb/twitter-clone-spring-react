@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final Converter converter;
+
     public UserDto create(UserCreateRequest request) {
         User user = User.builder()
                 .name(request.getName())
@@ -43,9 +44,9 @@ public class UserService {
         User inDB = findUserById(id);
         inDB.setName(Optional.ofNullable(request.getName()).orElse(inDB.getName()));
         inDB.setUsername(Optional.ofNullable(request.getUsername()).orElse(inDB.getUsername()));
-        inDB.setEmail(Optional.of(request.getEmail()).orElse(inDB.getEmail()));
+        inDB.setEmail(Optional.ofNullable(request.getEmail()).orElse(inDB.getEmail()));
         inDB.setPassword(Optional.ofNullable(request.getPassword()).orElse(inDB.getPassword()));
-        inDB.setBirthday(Optional.of(request.getBirthday()).orElse(inDB.getBirthday()));
+        inDB.setBirthday(Optional.ofNullable(request.getBirthday()).orElse(inDB.getBirthday()));
         return converter.userConvertToUserDto(userRepository.save(inDB));
     }
 
