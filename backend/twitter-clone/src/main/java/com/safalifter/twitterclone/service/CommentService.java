@@ -38,15 +38,6 @@ public class CommentService {
         return converter.commentConvertToCommentDto(findCommentById(id));
     }
 
-    // if commentRepository.findCommentsByTweet_Id(inDB.getId()) return null we can use Optional.ofNullable() but this method's returning empty
-    public List<CommentDto> getCommentsByTweetId(Long id) {
-        Tweet inDB = tweetService.findTweetById(id);
-        return commentRepository.findCommentsByTweet_Id(inDB.getId())
-                .stream().map(converter::commentConvertToCommentDto)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
-                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't comment!"));
-    }
-
     public CommentDto updateCommentById(Long id, UpdateCommentRequest request) {
         Comment inDB = findCommentById(id);
         inDB.setText(request.getText());
@@ -61,5 +52,14 @@ public class CommentService {
     protected Comment findCommentById(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Comment not found!"));
+    }
+
+    // if commentRepository.findCommentsByTweet_Id(id) return null we can use Optional.ofNullable() but this method's returning empty
+    public List<CommentDto> getTweetsCommentsByTweetId(Long id) {
+        Tweet inDB = tweetService.findTweetById(id);
+        return commentRepository.findCommentsByTweet_Id(inDB.getId())
+                .stream().map(converter::commentConvertToCommentDto)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
+                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't comment!"));
     }
 }

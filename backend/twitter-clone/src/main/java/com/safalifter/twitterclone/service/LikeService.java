@@ -19,37 +19,19 @@ import java.util.stream.Collectors;
 public class LikeService {
     private final LikeRepository likeRepository;
     private final Converter converter;
-
-    private final TweetService tweetService;
     private final UserService userService;
+    private final TweetService tweetService;
 
     // return null to disallow the creation of multiple likes
     public LikeDto create(LikeCreateRequest request) {
-        Tweet tweet = tweetService.findTweetById(request.getTweetId());
         User user = userService.findUserById(request.getUserId());
+        Tweet tweet = tweetService.findTweetById(request.getTweetId());
         Like like = Like.builder()
                 .tweet(tweet)
                 .user(user).build();
         if (!checkUserLikedForThisTweet(request.getUserId(), request.getTweetId()))
             return converter.likeConvertToLikeDto(likeRepository.save(like));
         return null;
-    }
-
-    // findAll not created because fetching all likes service is not required
-    public Object getLikes(Long userId, Long tweetId) {
-        if (userId != null && tweetId == null) return getUsersLikes(userId);
-        if (tweetId != null && userId == null) return getTweetLikes(tweetId);
-        return checkUserLikedForThisTweet(userId, tweetId);
-    }
-
-    public List<LikeDto> getTweetLikes(Long tweetId) {
-        return likeRepository.findLikesByTweet_Id(tweetId).stream()
-                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
-    }
-
-    public List<LikeDto> getUsersLikes(Long userId) {
-        return likeRepository.findLikesByUser_Id(userId).stream()
-                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
     }
 
     public void deleteLikeById(Long id) {
@@ -64,5 +46,17 @@ public class LikeService {
 
     protected boolean checkUserLikedForThisTweet(Long userId, Long tweetId) {
         return likeRepository.findLikeByUser_IdAndTweet_Id(userId, tweetId).isPresent();
+    }
+
+    public List<LikeDto> getTweetsLikesByTweetId(Long id) {
+        Tweet inDB = tweetService.findTweetById(id);
+        return likeRepository.findLikesByTweet_Id(inDB.getId()).stream()
+                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
+    }
+
+    public List<LikeDto> getUsersLikesByUserId(Long id) {
+        User inDB = userService.findUserById(id);
+        return likeRepository.findLikesByUser_Id(inDB.getId()).stream()
+                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
     }
 }

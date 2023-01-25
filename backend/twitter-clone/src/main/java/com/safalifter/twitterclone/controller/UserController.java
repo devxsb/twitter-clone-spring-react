@@ -1,15 +1,11 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.dto.UpdateUserRequest;
-import com.safalifter.twitterclone.dto.UserCreateRequest;
-import com.safalifter.twitterclone.dto.UserDto;
+import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.service.LikeService;
+import com.safalifter.twitterclone.service.TweetService;
 import com.safalifter.twitterclone.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TweetService tweetService;
+    private final LikeService likeService;
+
     @PostMapping
     ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateRequest request) {
         return ResponseEntity.status(201).body(userService.create(request));
@@ -45,5 +44,15 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/tweets")
+    ResponseEntity<List<TweetDto>> getUsersTweetsByUserId(@PathVariable Long id) {
+        return ResponseEntity.status(200).body(tweetService.getUsersTweetsByUserId(id));
+    }
+
+    @GetMapping("/{id}/likes")
+    ResponseEntity<List<LikeDto>> getUsersLikesByUserId(@PathVariable Long id) {
+        return ResponseEntity.status(200).body(likeService.getUsersLikesByUserId(id));
     }
 }

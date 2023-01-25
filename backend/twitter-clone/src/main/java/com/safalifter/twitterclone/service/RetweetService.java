@@ -38,15 +38,6 @@ public class RetweetService {
         return converter.retweetConvertToRetweetDto(findRetweetById(id));
     }
 
-    // if commentRepository.findCommentsByTweet_Id(inDB.getId()) return null we can use Optional.ofNullable() but this method's returning empty
-    public List<RetweetDto> getRetweetsByTweetId(Long id) {
-        Tweet inDB = tweetService.findTweetById(id);
-        return retweetRepository.findRetweetsByTweet_Id(inDB.getId())
-                .stream().map(converter::retweetConvertToRetweetDto)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
-                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't retweet!"));
-    }
-
     public RetweetDto updateRetweetById(Long id, UpdateRetweetRequest request) {
         Retweet inDB = findRetweetById(id);
         inDB.setText(request.getText());
@@ -61,5 +52,14 @@ public class RetweetService {
     protected Retweet findRetweetById(Long id) {
         return retweetRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Retweet not found!"));
+    }
+
+    // if commentRepository.findCommentsByTweet_Id(id) return null we can use Optional.ofNullable() but this method's returning empty
+    public List<RetweetDto> getTweetsRetweetsByTweetId(Long id) {
+        Tweet inDB = tweetService.findTweetById(id);
+        return retweetRepository.findRetweetsByTweet_Id(inDB.getId())
+                .stream().map(converter::retweetConvertToRetweetDto)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
+                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't retweet!"));
     }
 }

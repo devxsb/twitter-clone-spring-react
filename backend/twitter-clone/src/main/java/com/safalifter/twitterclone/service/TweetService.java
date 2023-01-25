@@ -1,6 +1,9 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.dto.Converter;
+import com.safalifter.twitterclone.dto.TweetCreateRequest;
+import com.safalifter.twitterclone.dto.TweetDto;
+import com.safalifter.twitterclone.dto.UpdateTweetRequest;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
@@ -27,10 +30,9 @@ public class TweetService {
         return converter.tweetConvertToTweetDto(tweetRepository.save(tweet));
     }
 
-    public List<TweetDto> getTweets(Long userId) {
-        if (userId != null)
-            return getTweetByUserId(userId);
-        return tweetRepository.findAll().stream().map(converter::tweetConvertToTweetDto).collect(Collectors.toList());
+    public List<TweetDto> getTweets() {
+        return tweetRepository.findAll().stream()
+                .map(converter::tweetConvertToTweetDto).collect(Collectors.toList());
     }
 
     public TweetDto getTweetById(Long id) {
@@ -54,7 +56,7 @@ public class TweetService {
     }
 
     // if tweetRepository.findAllByUser_Id(inDB.getId()) return null we can use Optional.ofNullable() but this method's returning empty
-    public List<TweetDto> getTweetByUserId(Long id) {
+    public List<TweetDto> getUsersTweetsByUserId(Long id) {
         User inDB = userService.findUserById(id);
         return tweetRepository.findAllByUser_Id(inDB.getId())
                 .stream().map(converter::tweetConvertToTweetDto)

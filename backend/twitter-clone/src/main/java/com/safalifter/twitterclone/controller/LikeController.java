@@ -18,12 +18,6 @@ public class LikeController {
         return ResponseEntity.status(201).body(likeService.create(request));
     }
 
-    @GetMapping
-    ResponseEntity<Object> getLikes(@RequestParam(required = false) Long userId,
-                                    @RequestParam(required = false) Long tweetId) {
-        return ResponseEntity.status(200).body(likeService.getLikes(userId, tweetId));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLikeById(@PathVariable Long id) {
         likeService.deleteLikeById(id);

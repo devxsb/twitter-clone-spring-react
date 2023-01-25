@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/v1/comments")
 @RequiredArgsConstructor
@@ -24,11 +22,6 @@ public class CommentController {
     @GetMapping("/{id}")
     ResponseEntity<CommentDto> getCommentById(@PathVariable Long id) {
         return ResponseEntity.status(200).body(commentService.getCommentById(id));
-    }
-
-    @GetMapping
-    ResponseEntity<List<CommentDto>> getCommentsByTweetId(@RequestParam(required = false) Long tweetId) {
-        return ResponseEntity.status(200).body(commentService.getCommentsByTweetId(tweetId));
     }
 
     @PutMapping("/{id}")
