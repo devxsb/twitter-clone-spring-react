@@ -1,13 +1,11 @@
 package com.safalifter.twitterclone.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Builder
-@Getter
+@Data
 public class UserDto {
     private long id;
     private String name;

@@ -1,12 +1,10 @@
 package com.safalifter.twitterclone.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
-@Builder
-@Getter
+@Data
 public class TweetDto {
     private Long id;
     private String text;

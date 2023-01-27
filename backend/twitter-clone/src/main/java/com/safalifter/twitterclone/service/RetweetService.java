@@ -1,15 +1,15 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.Converter;
 import com.safalifter.twitterclone.dto.RetweetCreateRequest;
-import com.safalifter.twitterclone.dto.RetweetDto;
 import com.safalifter.twitterclone.dto.UpdateRetweetRequest;
+import com.safalifter.twitterclone.dto.RetweetDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Retweet;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.RetweetRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RetweetService {
     private final RetweetRepository retweetRepository;
-    private final Converter converter;
     private final UserService userService;
     private final TweetService tweetService;
+    private final ModelMapper modelMapper;
 
     public RetweetDto create(RetweetCreateRequest request) {
         User user = userService.findUserById(request.getUserId());
@@ -31,17 +31,17 @@ public class RetweetService {
                 .text(request.getText())
                 .user(user)
                 .tweet(tweet).build();
-        return converter.retweetConvertToRetweetDto(retweetRepository.save(retweet));
+        return modelMapper.map(retweetRepository.save(retweet), RetweetDto.class);
     }
 
     public RetweetDto getRetweetById(Long id) {
-        return converter.retweetConvertToRetweetDto(findRetweetById(id));
+        return modelMapper.map(findRetweetById(id), RetweetDto.class);
     }
 
     public RetweetDto updateRetweetById(Long id, UpdateRetweetRequest request) {
         Retweet inDB = findRetweetById(id);
         inDB.setText(request.getText());
-        return converter.retweetConvertToRetweetDto(retweetRepository.save(inDB));
+        return modelMapper.map(retweetRepository.save(inDB), RetweetDto.class);
     }
 
     public void deleteRetweetById(Long id) {
@@ -58,7 +58,7 @@ public class RetweetService {
     public List<RetweetDto> getTweetsRetweetsByTweetId(Long id) {
         Tweet inDB = tweetService.findTweetById(id);
         return retweetRepository.findRetweetsByTweet_Id(inDB.getId())
-                .stream().map(converter::retweetConvertToRetweetDto)
+                .stream().map(x -> modelMapper.map(x, RetweetDto.class))
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
                 .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't retweet!"));
     }

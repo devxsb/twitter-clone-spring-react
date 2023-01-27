@@ -1,6 +1,5 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.Converter;
 import com.safalifter.twitterclone.dto.LikeCreateRequest;
 import com.safalifter.twitterclone.dto.LikeDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
@@ -9,6 +8,7 @@ import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LikeService {
     private final LikeRepository likeRepository;
-    private final Converter converter;
     private final UserService userService;
     private final TweetService tweetService;
+    private final ModelMapper modelMapper;
 
     // return null to disallow the creation of multiple likes
     public LikeDto create(LikeCreateRequest request) {
@@ -30,7 +30,7 @@ public class LikeService {
                 .tweet(tweet)
                 .user(user).build();
         if (!checkUserLikedForThisTweet(request.getUserId(), request.getTweetId()))
-            return converter.likeConvertToLikeDto(likeRepository.save(like));
+            return modelMapper.map(likeRepository.save(like), LikeDto.class);
         return null;
     }
 
@@ -51,12 +51,12 @@ public class LikeService {
     public List<LikeDto> getTweetsLikesByTweetId(Long id) {
         Tweet inDB = tweetService.findTweetById(id);
         return likeRepository.findLikesByTweet_Id(inDB.getId()).stream()
-                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
+                .map(x -> modelMapper.map(x, LikeDto.class)).collect(Collectors.toList());
     }
 
     public List<LikeDto> getUsersLikesByUserId(Long id) {
         User inDB = userService.findUserById(id);
         return likeRepository.findLikesByUser_Id(inDB.getId()).stream()
-                .map(converter::likeConvertToLikeDto).collect(Collectors.toList());
+                .map(x -> modelMapper.map(x, LikeDto.class)).collect(Collectors.toList());
     }
 }

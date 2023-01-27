@@ -1,10 +1,8 @@
 package com.safalifter.twitterclone.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Builder
-@Getter
+@Data
 public class RetweetDto {
     private Long id;
     private String text;

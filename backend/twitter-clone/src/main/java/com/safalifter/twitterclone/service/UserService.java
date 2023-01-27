@@ -1,6 +1,5 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.Converter;
 import com.safalifter.twitterclone.dto.UpdateUserRequest;
 import com.safalifter.twitterclone.dto.UserCreateRequest;
 import com.safalifter.twitterclone.dto.UserDto;
@@ -8,6 +7,7 @@ import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final Converter converter;
+    private final ModelMapper modelMapper;
 
     public UserDto create(UserCreateRequest request) {
         User user = User.builder()
@@ -27,17 +27,17 @@ public class UserService {
                 .username(request.getUsername())
                 .password(request.getPassword())
                 .birthday(request.getBirthday()).build();
-        return converter.userConvertToUserDto(userRepository.save(user));
+        return modelMapper.map(userRepository.save(user), UserDto.class);
     }
 
     public List<UserDto> getUsers() {
         return userRepository.findAll().stream()
-                .map(converter::userConvertToUserDto).collect(Collectors.toList());
+                .map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
     }
 
     public UserDto getUserById(Long id) {
         User inDB = findUserById(id);
-        return converter.userConvertToUserDto(inDB);
+        return modelMapper.map(inDB, UserDto.class);
     }
 
     public UserDto updateUserById(Long id, UpdateUserRequest request) {
@@ -47,7 +47,7 @@ public class UserService {
         inDB.setEmail(Optional.ofNullable(request.getEmail()).orElse(inDB.getEmail()));
         inDB.setPassword(Optional.ofNullable(request.getPassword()).orElse(inDB.getPassword()));
         inDB.setBirthday(Optional.ofNullable(request.getBirthday()).orElse(inDB.getBirthday()));
-        return converter.userConvertToUserDto(userRepository.save(inDB));
+        return modelMapper.map(userRepository.save(inDB), UserDto.class);
     }
 
     public void deleteUserById(Long id) {
