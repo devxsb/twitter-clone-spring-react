@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
-public class UserCreateRequest {
+public class RegisterRequest {
     private String name;
 
     @NotBlank(message = "Username mustn't be blank")

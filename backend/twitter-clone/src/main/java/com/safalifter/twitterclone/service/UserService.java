@@ -1,13 +1,15 @@
 package com.safalifter.twitterclone.service;
 
 import com.safalifter.twitterclone.dto.UpdateUserRequest;
-import com.safalifter.twitterclone.dto.UserCreateRequest;
+import com.safalifter.twitterclone.dto.RegisterRequest;
 import com.safalifter.twitterclone.dto.UserDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
+import com.safalifter.twitterclone.model.Role;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,14 +21,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserDto create(UserCreateRequest request) {
+    public UserDto create(RegisterRequest request) {
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .username(request.getUsername())
-                .password(request.getPassword())
-                .birthday(request.getBirthday()).build();
+                .password(passwordEncoder.encode(request.getPassword()))
+                .birthday(request.getBirthday())
+                .role(Role.USER).build();
         return modelMapper.map(userRepository.save(user), UserDto.class);
     }
 
@@ -57,5 +61,9 @@ public class UserService {
 
     protected User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found!"));
+    }
+
+    protected User findUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found!"));
     }
 }

@@ -19,11 +19,6 @@ public class UserController {
     private final TweetService tweetService;
     private final LikeService likeService;
 
-    @PostMapping
-    ResponseEntity<UserDto> create(@Valid @RequestBody UserCreateRequest request) {
-        return ResponseEntity.status(201).body(userService.create(request));
-    }
-
     @GetMapping
     ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity.status(200).body(userService.getUsers());

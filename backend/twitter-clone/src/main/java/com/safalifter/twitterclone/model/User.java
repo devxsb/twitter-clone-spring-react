@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,7 +23,6 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String username;
 
-    @Size(min = 8, max = 16)
     private String password;
 
     private LocalDate birthday;
@@ -34,4 +32,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Like> likes;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
