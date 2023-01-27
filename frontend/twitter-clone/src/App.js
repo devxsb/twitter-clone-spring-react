@@ -6,7 +6,7 @@ import Widgets from "./layout/Widgets";
 import Login from "./layout/Login";
 
 const App = () => {
-    const currentUser = null
+    const currentUser = 1
     return (
         <>
             {!currentUser ?

@@ -3,13 +3,20 @@ import Divider from "../components/Divider";
 import FeedList from "../components/FeedList";
 import TweetBox from "../components/TweetBox";
 import {PopulerIcon} from "../icons/Icon";
+import TweetService from "../service/TweetService";
 
 const Content = () => {
     const [tweets, setTweets] = useState([]);
+    const [render, setRender] = useState(false)
 
     useEffect(() => {
-        // simulation
-    }, []);
+        let tweetService = new TweetService()
+        tweetService.getTweets().then(res => setTweets(res.data))
+    }, [render]);
+
+    const refreshTweets = () => {
+        setRender(!render)
+    }
 
     return (
         <main className="flex flex-col border-r border-l border-gray-extraLight w-1/2 mr-auto">
@@ -24,10 +31,9 @@ const Content = () => {
                     alt="Profile"
                     className="w-11 h-11 rounded-full"
                 />
-                <TweetBox/>
+                <TweetBox refresh={refreshTweets}/>
             </div>
             <Divider/>
-
             {/* Feed */}
             <FeedList tweets={tweets}/>
         </main>
