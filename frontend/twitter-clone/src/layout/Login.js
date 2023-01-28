@@ -1,11 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import SearchIcon from '@mui/icons-material/Search';
 import PeopleIcon from '@mui/icons-material/People';
 import ChatIcon from '@mui/icons-material/Chat';
 import bg from '../images/bird.svg'
+import AuthService from "../service/AuthService";
+import {useDispatch} from "react-redux";
+import {login} from "../redux/reduxSlice";
 
 const Login = () => {
+    const [username, setUsername] = useState(null)
+    const [password, setPassword] = useState(null)
+
+    const dispatch = useDispatch()
+
+    const loginClick = () => {
+        let body = {
+            username: username,
+            password: password
+        }
+        let authService = new AuthService()
+        authService.login(body).then(res => {
+            dispatch(login(res.data))
+        })
+    }
+
     return (
         <div className="flex flex-col w-full h-screen m-0" style={{fontFamily: `Segoe UI, Arial, sans-serif`}}>
             <div className="flex flex-row h-screen">
@@ -37,17 +56,20 @@ const Login = () => {
                         <div className="mr-2.5">
                             <input type="text"
                                    placeholder="Username"
-                                   className="border-b p-3 block placeholder-gray-dark bg-transparent focus:outline-none w-full text-sm focus-within:ring-1 focus-within:ring-primary-base"/>
+                                   className="border-b p-3 block placeholder-gray-dark bg-transparent focus:outline-none w-full text-sm focus-within:ring-1 focus-within:ring-primary-base"
+                                   onChange={e => setUsername(e.target.value)}/>
                         </div>
                         <div className="mr-2.5">
                             <input type="password"
                                    placeholder="Password"
-                                   className="border-b p-3 block placeholder-gray-dark bg-transparent focus:outline-none w-full text-sm focus-within:ring-1 focus-within:ring-primary-base"/>
+                                   className="border-b p-3 block placeholder-gray-dark bg-transparent focus:outline-none w-full text-sm focus-within:ring-1 focus-within:ring-primary-base"
+                                   onChange={e => setPassword(e.target.value)}/>
                             <a className="text-gray-400 text-xs ml-3">Don't have an account? Sign up</a>
                         </div>
                         <button
                             className="bg-transparent py-2 px-4 rounded-2xl p-3 text-blue-400 text-sm box-border w-auto h-11 font-bold"
-                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}}>Log in
+                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}}
+                            onClick={loginClick}>Log in
                         </button>
                     </div>
                     <div className="max-h-72 m-auto max-w-sm">

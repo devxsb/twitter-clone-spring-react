@@ -4,9 +4,10 @@ import Sidebar from "./layout/Sidebar";
 import Content from "./layout/Content";
 import Widgets from "./layout/Widgets";
 import Login from "./layout/Login";
+import {useSelector} from "react-redux";
 
 const App = () => {
-    const currentUser = 1
+    const currentUser = useSelector(state => state.reduxSlice.currentUser)
     return (
         <>
             {!currentUser ?
