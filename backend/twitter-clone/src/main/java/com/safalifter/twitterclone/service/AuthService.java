@@ -1,7 +1,10 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.dto.TokenDTO;
+import com.safalifter.twitterclone.dto.UserDto;
 import com.safalifter.twitterclone.exc.WrongCredentialsException;
+import com.safalifter.twitterclone.request.AuthRequest;
+import com.safalifter.twitterclone.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService{
+public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final TokenService tokenService;
@@ -32,7 +35,7 @@ public class AuthService{
         }
     }
 
-    public AuthResponse signup(RegisterRequest request) {
-        return modelMapper.map(userService.create(request), AuthResponse.class);
+    public UserDto signup(RegisterRequest request) {
+        return modelMapper.map(userService.create(request), UserDto.class);
     }
 }

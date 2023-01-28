@@ -1,8 +1,8 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.dto.AuthRequest;
-import com.safalifter.twitterclone.dto.AuthResponse;
-import com.safalifter.twitterclone.dto.RegisterRequest;
+import com.safalifter.twitterclone.dto.UserDto;
+import com.safalifter.twitterclone.request.AuthRequest;
+import com.safalifter.twitterclone.request.RegisterRequest;
 import com.safalifter.twitterclone.dto.TokenDTO;
 import com.safalifter.twitterclone.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    ResponseEntity<AuthResponse> handleSignUp(@Valid @RequestBody RegisterRequest request) {
+    ResponseEntity<UserDto> handleSignUp(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.signup(request));
     }
 }
