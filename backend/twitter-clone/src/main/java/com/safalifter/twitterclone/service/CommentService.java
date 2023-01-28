@@ -1,20 +1,18 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.request.CommentCreateRequest;
 import com.safalifter.twitterclone.dto.CommentDto;
-import com.safalifter.twitterclone.request.UpdateCommentRequest;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Comment;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.CommentRepository;
+import com.safalifter.twitterclone.request.CommentCreateRequest;
+import com.safalifter.twitterclone.request.UpdateCommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,12 +52,9 @@ public class CommentService {
                 .orElseThrow(() -> new NotFoundException("Comment not found!"));
     }
 
-    // if commentRepository.findCommentsByTweet_Id(id) return null we can use Optional.ofNullable() but this method's returning empty
-    public List<CommentDto> getTweetsCommentsByTweetId(Long id) {
+    public Page<CommentDto> getTweetsCommentsByTweetId(Long id, Pageable page) {
         Tweet inDB = tweetService.findTweetById(id);
-        return commentRepository.findCommentsByTweet_Id(inDB.getId())
-                .stream().map(x -> modelMapper.map(x, CommentDto.class))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
-                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't comment!"));
+        return commentRepository.findCommentsByTweet_Id(inDB.getId(), page)
+                .map(x -> modelMapper.map(x, CommentDto.class));
     }
 }

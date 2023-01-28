@@ -1,20 +1,20 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.request.UpdateUserRequest;
-import com.safalifter.twitterclone.request.RegisterRequest;
 import com.safalifter.twitterclone.dto.UserDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Role;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.UserRepository;
+import com.safalifter.twitterclone.request.RegisterRequest;
+import com.safalifter.twitterclone.request.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +34,9 @@ public class UserService {
         return modelMapper.map(userRepository.save(user), UserDto.class);
     }
 
-    public List<UserDto> getUsers() {
-        return userRepository.findAll().stream()
-                .map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
+    public Page<UserDto> getUsers(Pageable page) {
+        return userRepository.findAll(page)
+                .map(x -> modelMapper.map(x, UserDto.class));
     }
 
     public UserDto getUserById(Long id) {

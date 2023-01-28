@@ -1,6 +1,9 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.dto.CommentDto;
+import com.safalifter.twitterclone.dto.LikeDto;
+import com.safalifter.twitterclone.dto.RetweetDto;
+import com.safalifter.twitterclone.dto.TweetDto;
 import com.safalifter.twitterclone.request.TweetCreateRequest;
 import com.safalifter.twitterclone.request.UpdateTweetRequest;
 import com.safalifter.twitterclone.service.CommentService;
@@ -8,10 +11,12 @@ import com.safalifter.twitterclone.service.LikeService;
 import com.safalifter.twitterclone.service.RetweetService;
 import com.safalifter.twitterclone.service.TweetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tweets")
@@ -28,8 +33,8 @@ public class TweetController {
     }
 
     @GetMapping
-    ResponseEntity<List<TweetDto>> getTweets() {
-        return ResponseEntity.status(200).body(tweetService.getTweets());
+    ResponseEntity<Page<TweetDto>> getTweets(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(tweetService.getTweets(page));
     }
 
     @GetMapping("/{id}")
@@ -50,17 +55,20 @@ public class TweetController {
     }
 
     @GetMapping("/{id}/likes")
-    ResponseEntity<List<LikeDto>> getTweetsLikesByTweetId(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(likeService.getTweetsLikesByTweetId(id));
+    ResponseEntity<Page<LikeDto>> getTweetsLikesByTweetId(@PathVariable Long id,
+                                                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(likeService.getTweetsLikesByTweetId(id, page));
     }
 
     @GetMapping("/{id}/comments")
-    ResponseEntity<List<CommentDto>> getTweetsCommentsByTweetId(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(commentService.getTweetsCommentsByTweetId(id));
+    ResponseEntity<Page<CommentDto>> getTweetsCommentsByTweetId(@PathVariable Long id,
+                                                                @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(commentService.getTweetsCommentsByTweetId(id, page));
     }
 
     @GetMapping("/{id}/retweets")
-    ResponseEntity<List<RetweetDto>> getTweetsRetweetsByTweetId(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(retweetService.getTweetsRetweetsByTweetId(id));
+    ResponseEntity<Page<RetweetDto>> getTweetsRetweetsByTweetId(@PathVariable Long id,
+                                                                @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(retweetService.getTweetsRetweetsByTweetId(id, page));
     }
 }

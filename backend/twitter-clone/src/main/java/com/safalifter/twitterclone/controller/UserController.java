@@ -1,16 +1,21 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.dto.LikeDto;
+import com.safalifter.twitterclone.dto.TweetDto;
+import com.safalifter.twitterclone.dto.UserDto;
 import com.safalifter.twitterclone.request.UpdateUserRequest;
 import com.safalifter.twitterclone.service.LikeService;
 import com.safalifter.twitterclone.service.TweetService;
 import com.safalifter.twitterclone.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -21,8 +26,8 @@ public class UserController {
     private final LikeService likeService;
 
     @GetMapping
-    ResponseEntity<List<UserDto>> getUsers() {
-        return ResponseEntity.status(200).body(userService.getUsers());
+    ResponseEntity<Page<UserDto>> getUsers(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(userService.getUsers(page));
     }
 
     @GetMapping("{id}")
@@ -43,12 +48,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}/tweets")
-    ResponseEntity<List<TweetDto>> getUsersTweetsByUserId(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(tweetService.getUsersTweetsByUserId(id));
+    ResponseEntity<Page<TweetDto>> getUsersTweetsByUserId(@PathVariable Long id,
+                                                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(tweetService.getUsersTweetsByUserId(id, page));
     }
 
     @GetMapping("/{id}/likes")
-    ResponseEntity<List<LikeDto>> getUsersLikesByUserId(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(likeService.getUsersLikesByUserId(id));
+    ResponseEntity<Page<LikeDto>> getUsersLikesByUserId(@PathVariable Long id,
+                                                        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return ResponseEntity.status(200).body(likeService.getUsersLikesByUserId(id, page));
     }
 }

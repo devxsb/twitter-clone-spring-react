@@ -1,7 +1,7 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.request.CommentCreateRequest;
 import com.safalifter.twitterclone.dto.CommentDto;
+import com.safalifter.twitterclone.request.CommentCreateRequest;
 import com.safalifter.twitterclone.request.UpdateCommentRequest;
 import com.safalifter.twitterclone.service.CommentService;
 import lombok.RequiredArgsConstructor;

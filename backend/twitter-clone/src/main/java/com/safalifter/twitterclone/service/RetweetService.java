@@ -1,20 +1,18 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.request.RetweetCreateRequest;
-import com.safalifter.twitterclone.request.UpdateRetweetRequest;
 import com.safalifter.twitterclone.dto.RetweetDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Retweet;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.RetweetRepository;
+import com.safalifter.twitterclone.request.RetweetCreateRequest;
+import com.safalifter.twitterclone.request.UpdateRetweetRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,12 +52,9 @@ public class RetweetService {
                 .orElseThrow(() -> new NotFoundException("Retweet not found!"));
     }
 
-    // if commentRepository.findCommentsByTweet_Id(id) return null we can use Optional.ofNullable() but this method's returning empty
-    public List<RetweetDto> getTweetsRetweetsByTweetId(Long id) {
+    public Page<RetweetDto> getTweetsRetweetsByTweetId(Long id, Pageable page) {
         Tweet inDB = tweetService.findTweetById(id);
-        return retweetRepository.findRetweetsByTweet_Id(inDB.getId())
-                .stream().map(x -> modelMapper.map(x, RetweetDto.class))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Optional::of))
-                .filter(t -> !t.isEmpty()).orElseThrow(() -> new NotFoundException("Tweet hasn't retweet!"));
+        return retweetRepository.findRetweetsByTweet_Id(inDB.getId(), page)
+                .map(x -> modelMapper.map(x, RetweetDto.class));
     }
 }

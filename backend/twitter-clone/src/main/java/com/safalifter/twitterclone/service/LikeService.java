@@ -1,18 +1,17 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.request.LikeCreateRequest;
 import com.safalifter.twitterclone.dto.LikeDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Like;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;
 import com.safalifter.twitterclone.repository.LikeRepository;
+import com.safalifter.twitterclone.request.LikeCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,15 +47,15 @@ public class LikeService {
         return likeRepository.findLikeByUser_IdAndTweet_Id(userId, tweetId).isPresent();
     }
 
-    public List<LikeDto> getTweetsLikesByTweetId(Long id) {
+    public Page<LikeDto> getTweetsLikesByTweetId(Long id, Pageable page) {
         Tweet inDB = tweetService.findTweetById(id);
-        return likeRepository.findLikesByTweet_Id(inDB.getId()).stream()
-                .map(x -> modelMapper.map(x, LikeDto.class)).collect(Collectors.toList());
+        return likeRepository.findLikesByTweet_Id(inDB.getId(), page)
+                .map(x -> modelMapper.map(x, LikeDto.class));
     }
 
-    public List<LikeDto> getUsersLikesByUserId(Long id) {
+    public Page<LikeDto> getUsersLikesByUserId(Long id, Pageable page) {
         User inDB = userService.findUserById(id);
-        return likeRepository.findLikesByUser_Id(inDB.getId()).stream()
-                .map(x -> modelMapper.map(x, LikeDto.class)).collect(Collectors.toList());
+        return likeRepository.findLikesByUser_Id(inDB.getId(), page)
+                .map(x -> modelMapper.map(x, LikeDto.class));
     }
 }
