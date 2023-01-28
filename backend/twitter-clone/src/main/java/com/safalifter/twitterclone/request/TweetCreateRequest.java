@@ -1,4 +1,4 @@
-package com.safalifter.twitterclone.dto;
+package com.safalifter.twitterclone.request;
 
 import lombok.Getter;
 

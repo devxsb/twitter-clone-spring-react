@@ -1,6 +1,8 @@
 package com.safalifter.twitterclone.controller;
 
 import com.safalifter.twitterclone.dto.*;
+import com.safalifter.twitterclone.request.TweetCreateRequest;
+import com.safalifter.twitterclone.request.UpdateTweetRequest;
 import com.safalifter.twitterclone.service.CommentService;
 import com.safalifter.twitterclone.service.LikeService;
 import com.safalifter.twitterclone.service.RetweetService;

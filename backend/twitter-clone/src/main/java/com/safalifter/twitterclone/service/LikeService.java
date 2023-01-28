@@ -1,6 +1,6 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.LikeCreateRequest;
+import com.safalifter.twitterclone.request.LikeCreateRequest;
 import com.safalifter.twitterclone.dto.LikeDto;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Like;

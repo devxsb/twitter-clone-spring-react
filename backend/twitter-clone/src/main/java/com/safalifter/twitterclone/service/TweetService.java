@@ -1,8 +1,8 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.TweetCreateRequest;
+import com.safalifter.twitterclone.request.TweetCreateRequest;
 import com.safalifter.twitterclone.dto.TweetDto;
-import com.safalifter.twitterclone.dto.UpdateTweetRequest;
+import com.safalifter.twitterclone.request.UpdateTweetRequest;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Tweet;
 import com.safalifter.twitterclone.model.User;

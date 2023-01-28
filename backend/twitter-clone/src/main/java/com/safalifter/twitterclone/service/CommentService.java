@@ -1,8 +1,8 @@
 package com.safalifter.twitterclone.service;
 
-import com.safalifter.twitterclone.dto.CommentCreateRequest;
+import com.safalifter.twitterclone.request.CommentCreateRequest;
 import com.safalifter.twitterclone.dto.CommentDto;
-import com.safalifter.twitterclone.dto.UpdateCommentRequest;
+import com.safalifter.twitterclone.request.UpdateCommentRequest;
 import com.safalifter.twitterclone.exc.NotFoundException;
 import com.safalifter.twitterclone.model.Comment;
 import com.safalifter.twitterclone.model.Tweet;

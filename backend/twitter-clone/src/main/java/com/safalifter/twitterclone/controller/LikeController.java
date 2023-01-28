@@ -1,6 +1,6 @@
 package com.safalifter.twitterclone.controller;
 
-import com.safalifter.twitterclone.dto.LikeCreateRequest;
+import com.safalifter.twitterclone.request.LikeCreateRequest;
 import com.safalifter.twitterclone.dto.LikeDto;
 import com.safalifter.twitterclone.service.LikeService;
 import lombok.RequiredArgsConstructor;
