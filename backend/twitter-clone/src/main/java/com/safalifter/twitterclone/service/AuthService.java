@@ -28,7 +28,7 @@ public class AuthService {
             return TokenDTO
                     .builder()
                     .accessToken(tokenService.generateToken(auth))
-                    .user(modelMapper.map(userService.findUserByUsername(request.getUsername()), UserDto.class))
+                    .userId(userService.findUserByUsername(request.getUsername()).getId())
                     .build();
         } catch (final BadCredentialsException badCredentialsException) {
             throw new WrongCredentialsException("Invalid Username or Password");

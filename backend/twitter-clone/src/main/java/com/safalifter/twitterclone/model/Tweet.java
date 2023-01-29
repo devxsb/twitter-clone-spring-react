@@ -25,4 +25,7 @@ public class Tweet extends BaseEntity {
 
     @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Retweet> retweets;
 }

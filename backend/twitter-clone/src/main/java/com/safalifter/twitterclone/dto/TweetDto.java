@@ -15,4 +15,5 @@ public class TweetDto {
     private LocalDateTime creationTimestamp;
     private List<LikeDto> likes;
     private List<CommentDto> comments;
+    private List<RetweetDto> retweets;
 }

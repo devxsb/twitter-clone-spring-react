@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class TokenDTO {
     private String accessToken;
-    private UserDto user;
+    private long userId;
 }
