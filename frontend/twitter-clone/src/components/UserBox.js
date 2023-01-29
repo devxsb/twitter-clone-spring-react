@@ -1,9 +1,17 @@
 import React from "react";
+import LogoutIcon from '@mui/icons-material/Logout';
+import {useDispatch} from "react-redux";
+import {logout} from "../redux/reduxSlice";
 
 const UserBox = () => {
+    const dispatch = useDispatch()
+    const logoutClick = () => {
+        dispatch(logout())
+    }
     return (
         <div
-            className="flex items-center mb-6 hover:bg-primary-light cursor-pointer rounded-full py-2 px-4 transform transition-colors duration-200">
+            className="flex items-center mb-6 hover:bg-primary-light cursor-pointer rounded-full py-2 px-4 transform transition-colors duration-200"
+            onClick={() => console.log("sa")}>
             <img
                 src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
                 alt="Profile"
@@ -13,12 +21,7 @@ const UserBox = () => {
                 <span className="font-bold text-md text-black">Safa</span>
                 <span className="text-sm text-gray-dark">@safalifter</span>
             </div>
-
-            <div className="flex space-x-1 ml-auto">
-                <div className="w-1 h-1 bg-gray-900 rounded-full"/>
-                <div className="w-1 h-1 bg-gray-900 rounded-full"/>
-                <div className="w-1 h-1 bg-gray-900 rounded-full"/>
-            </div>
+            <LogoutIcon style={{marginLeft: "auto"}} onClick={logoutClick}/>
         </div>
     );
 };

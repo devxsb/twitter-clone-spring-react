@@ -15,7 +15,7 @@ const Auth = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const loginClick = () => {
+    const loginClick = (e) => {
         let body = {
             username: username,
             password: password
@@ -24,6 +24,7 @@ const Auth = () => {
         authService.login(body).then(res => {
             dispatch(login(res.data))
         })
+        e.preventDefault()
     }
 
     return (
@@ -53,7 +54,7 @@ const Auth = () => {
                     </div>
                 </div>
                 <div className="flex flex-col space-x-reverse w-1/2">
-                    <div className="flex justify-center w-full mt-5">
+                    <form className="flex justify-center w-full mt-5">
                         <div className="mr-2.5">
                             <input type="text"
                                    placeholder="Username"
@@ -69,10 +70,10 @@ const Auth = () => {
                         </div>
                         <button
                             className="bg-transparent py-2 px-4 rounded-2xl p-3 text-blue-400 text-sm box-border w-auto h-11 font-bold"
-                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}}
+                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}} type="submit"
                             onClick={loginClick}>Log in
                         </button>
-                    </div>
+                    </form>
                     <div className="max-h-72 m-auto max-w-sm">
                         <TwitterIcon style={{color: "#1DA1F2", marginBottom: "10px"}} fontSize="large"/>
                         <h1 className="text-2xl mb-6 font-bold" style={{lineHeight: "32px"}}>See what's happening in
