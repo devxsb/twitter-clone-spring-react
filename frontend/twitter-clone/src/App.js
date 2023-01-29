@@ -1,23 +1,22 @@
 import React from "react";
-import Container from "./layout/Container";
-import Sidebar from "./layout/Sidebar";
-import Content from "./layout/Content";
-import Widgets from "./layout/Widgets";
-import Login from "./layout/Login";
 import {useSelector} from "react-redux";
+import Auth from "./pages/Auth";
+import {Route, Routes} from "react-router-dom";
+import Login from "./layout/Login";
+import Signup from "./layout/Signup";
+import Home from "./pages/Home";
 
 const App = () => {
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
     return (
-        <>
-            {!currentUser ?
-                <Login/> :
-                <Container>
-                    <Sidebar/>
-                    <Content/>
-                    <Widgets/>
-                </Container>}
-        </>
+        <Routes>
+            <Route path='*' element={currentUser ? <Home/> : <Auth/>}/>
+            {!currentUser &&
+                <>
+                    <Route path='/login' element={<Login/>}/>
+                    <Route path='/signup' element={<Signup/>}/>
+                </>}
+        </Routes>
     );
 };
 
