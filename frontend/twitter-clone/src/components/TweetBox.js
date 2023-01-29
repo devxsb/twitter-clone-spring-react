@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {EmojiIcon, GIFIcon, ImageIcon, PollIcon, ScheduleIcon,} from "../icons/Icon";
 import TweetService from "../service/TweetService";
+import {useSelector} from "react-redux";
 
 const TweetBox = ({refresh}) => {
     const [content, setContent] = useState("");
-    const currentUser = 1
+    const currentUser = useSelector(state => state.reduxSlice.currentUser)
 
     const sendTweet = () => {
         let body = {
@@ -12,7 +13,7 @@ const TweetBox = ({refresh}) => {
             userId: currentUser
         }
         let tweetService = new TweetService()
-        tweetService.sendTweet(body).then(res => refresh())
+        tweetService.sendTweet(body).then(() => refresh())
     };
 
     return (

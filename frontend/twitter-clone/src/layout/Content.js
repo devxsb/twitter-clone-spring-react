@@ -6,7 +6,7 @@ import {PopulerIcon} from "../icons/Icon";
 import TweetService from "../service/TweetService";
 
 const Content = () => {
-    const [tweets, setTweets] = useState([]);
+    const [tweets, setTweets] = useState({content: []});
     const [render, setRender] = useState(false)
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const Content = () => {
             </div>
             <Divider/>
             {/* Feed */}
-            <FeedList tweets={tweets}/>
+            <FeedList tweets={tweets.content}/>
         </main>
     );
 };

@@ -1,25 +1,72 @@
-import React from "react";
-import {LikeIcon, ReplyIcon, ReTweetIcon, ShareIcon} from "../icons/Icon";
+import React, {useEffect, useState} from "react";
+import {ReplyIcon, ReTweetIcon, ShareIcon} from "../icons/Icon";
 import defaultProfile from '../images/default-profile.png'
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LikeService from "../service/LikeService";
 
 const FeedItem = ({
                       profilePicture,
                       text,
-                      userId,
+                      name,
                       image,
-                      timestamp,
+                      creationTimestamp,
                       username,
+                      likes,
+                      comments,
+                      retweets,
+                      id
                   }) => {
+    const [likeCount, setLikeCount] = useState(likes.length);
+    const [commentsCount, setCommentsCount] = useState(comments.length);
+    const [retweetsCount, setRetweetsCount] = useState(retweets.length);
+    const [isLiked, setIsLiked] = useState(false)
+    const [likeId, setLikeId] = useState(undefined)
+
+    const likeClick = () => {
+        let likeService = new LikeService()
+        let body = {
+            userId: localStorage.getItem("currentUser"),
+            tweetId: id
+        }
+        if (isLiked) {
+            likeService.deleteLike(likeId).then(() => {
+                setIsLiked(false)
+                setLikeId(undefined)
+                setLikeCount(likeCount - 1)
+            })
+        } else {
+            likeService.addLike(body).then(res => {
+                setIsLiked(true)
+                setLikeId(res.data.id)
+                setLikeCount(likeCount + 1)
+            })
+        }
+    }
+
+    const checkLikes = () => {
+        let likeControl = likes.find((like =>
+            like.userId.toString() === localStorage.getItem("currentUser")));
+        if (likeControl) {
+            setIsLiked(true);
+            setLikeId(likeControl.id)
+        }
+    }
+
+    useEffect(() => {
+        checkLikes()
+    }, [isLiked])
+
     return (
         <article className="flex space-x-3 border-b border-gray-extraLight px-4 py-3 cursor-pointer">
             <img src={profilePicture || defaultProfile} alt="Profile" className="w-11 h-11 rounded-full"/>
             <div className="flex-1">
                 <div className="flex items-center text-sm">
-                    <h4 className="font-bold">{userId}</h4>
-                    <span className="ml-2 text-gray-dark">{username}</span>
+                    <h4 className="font-bold">{name}</h4>
+                    <span className="ml-2 text-gray-dark">@{username}</span>
                     <div className="mx-2 bg-gray-dark h-1 w-1 border rounded-full"/>
                     <span className="text-gray-dark">
-            {timestamp?.toDate().toLocaleTimeString("tr-TR")}
+                        {new Date(creationTimestamp).toLocaleString("tr-TR")}
           </span>
                 </div>
                 <p className="mt-2 text-gray-900 text-sm">{text}</p>
@@ -30,7 +77,7 @@ const FeedItem = ({
                             className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-primary-light ">
                             <ReplyIcon className="w-5 h-5 group-hover:text-primary-base"/>
                         </div>
-                        <span className="group-hover:text-primary-base">7</span>
+                        <span className="group-hover:text-primary-base">{commentsCount}</span>
                     </li>
 
                     <li className="flex items-center  space-x-3 text-gray-dark text-sm group">
@@ -38,14 +85,19 @@ const FeedItem = ({
                             className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-green-200 ">
                             <ReTweetIcon className="w-5 h-5 group-hover:text-green-400"/>
                         </div>
-                        <span className="group-hover:text-primary-base">7</span>
+                        <span className="group-hover:text-primary-base">{retweetsCount}</span>
                     </li>
 
                     <li className="flex items-center  space-x-3 text-gray-dark text-sm group">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-pink-200 ">
-                            <LikeIcon className="w-5 h-5 group-hover:text-gray-dark"/>
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-pink-200"
+                             onClick={likeClick}>
+                            {isLiked ?
+                                <FavoriteIcon className="w-5 h-5 group-hover:text-gray-dark"
+                                              style={{color: "rgb(249, 24, 128)"}}/> :
+                                <FavoriteBorderIcon className="w-5 h-5 group-hover:text-gray-dark"/>
+                            }
                         </div>
-                        <span className="group-hover:text-pink-400">7</span>
+                        <span className="group-hover:text-pink-400">{likeCount}</span>
                     </li>
 
                     <li className="flex items-center  space-x-3 text-gray-dark text-sm group">
