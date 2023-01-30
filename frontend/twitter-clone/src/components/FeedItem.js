@@ -5,6 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LikeService from "../service/LikeService";
 import Modal from "./Modal";
+import {useNavigate} from "react-router-dom";
 
 const FeedItem = ({
                       profilePicture,
@@ -18,11 +19,13 @@ const FeedItem = ({
                       retweets,
                       id
                   }) => {
-    const [likeCount, setLikeCount] = useState(likes.length);
-    const [commentsCount, setCommentsCount] = useState(comments.length);
-    const [retweetsCount, setRetweetsCount] = useState(retweets.length);
+    const [likeCount, setLikeCount] = useState(likes && likes.length);
+    const [commentsCount, setCommentsCount] = useState(comments && comments.length);
+    const [retweetsCount, setRetweetsCount] = useState(retweets && retweets.length);
     const [isLiked, setIsLiked] = useState(false)
     const [likeId, setLikeId] = useState(undefined)
+
+    const navigate = useNavigate()
 
     const likeClick = () => {
         let likeService = new LikeService()
@@ -75,7 +78,7 @@ const FeedItem = ({
                         {new Date(creationTimestamp).toLocaleString("tr-TR")}
                         </span>
                     </div>
-                    <p className="mt-2 text-gray-900 text-sm">{text}</p>
+                    <p className="mt-2 text-gray-900 text-sm" onClick={() => navigate("/tweets/" + id)}>{text}</p>
                     {image && <img src={image} className="my-2 rounded-xl max-h-96" alt={image}/>}
                     <ul className="-ml-1 mt-3 flex justify-between max-w-md">
                         <li className="flex items-center text-gray-dark text-sm group">
@@ -83,7 +86,8 @@ const FeedItem = ({
                                 <div
                                     className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-primary-light">
                                     <ReplyIcon className="w-5 h-5 group-hover:text-primary-base"/>
-                                </div>} setCount={setCommentCountFunc} profilePicture={profilePicture} id={id} box="comment"/>
+                                </div>} setCount={setCommentCountFunc} profilePicture={profilePicture} id={id}
+                                   box="comment"/>
                             <span className="group-hover:text-primary-base">{commentsCount}</span>
                         </li>
 
@@ -92,7 +96,8 @@ const FeedItem = ({
                                 <div
                                     className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-green-200 ">
                                     <ReTweetIcon className="w-5 h-5 group-hover:text-green-400"/>
-                                </div>} setCount={setRetweetsCountFunc} profilePicture={profilePicture} id={id} box="retweet"/>
+                                </div>} setCount={setRetweetsCountFunc} profilePicture={profilePicture} id={id}
+                                   box="retweet"/>
                             <span className="group-hover:text-primary-base">{retweetsCount}</span>
                         </li>
 
