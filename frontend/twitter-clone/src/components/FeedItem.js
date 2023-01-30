@@ -58,9 +58,10 @@ const FeedItem = ({
         checkLikes()
     }, [isLiked])
 
-    const setCommentCountFunc = () => {
-        setCommentsCount(commentsCount + 1)
-    }
+    const setCommentCountFunc = () => setCommentsCount(commentsCount + 1)
+
+    const setRetweetsCountFunc = () => setRetweetsCount(retweetsCount + 1)
+
     return (
         <>
             <article className="flex space-x-3 border-b border-gray-extraLight px-4 py-3 cursor-pointer">
@@ -82,15 +83,16 @@ const FeedItem = ({
                                 <div
                                     className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-primary-light">
                                     <ReplyIcon className="w-5 h-5 group-hover:text-primary-base"/>
-                                </div>} setCount={setCommentCountFunc} profilePicture={profilePicture} id={id}/>
+                                </div>} setCount={setCommentCountFunc} profilePicture={profilePicture} id={id} box="comment"/>
                             <span className="group-hover:text-primary-base">{commentsCount}</span>
                         </li>
 
-                        <li className="flex items-center  space-x-3 text-gray-dark text-sm group">
-                            <div
-                                className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-green-200 ">
-                                <ReTweetIcon className="w-5 h-5 group-hover:text-green-400"/>
-                            </div>
+                        <li className="flex items-center space-x-3 text-gray-dark text-sm group">
+                            <Modal icon={
+                                <div
+                                    className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-green-200 ">
+                                    <ReTweetIcon className="w-5 h-5 group-hover:text-green-400"/>
+                                </div>} setCount={setRetweetsCountFunc} profilePicture={profilePicture} id={id} box="retweet"/>
                             <span className="group-hover:text-primary-base">{retweetsCount}</span>
                         </li>
 
