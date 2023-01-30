@@ -3,6 +3,7 @@ package com.safalifter.twitterclone.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class CommentDto {
@@ -13,4 +14,6 @@ public class CommentDto {
     private String name;
     private String username;
     private LocalDateTime creationTimestamp;
+    private List<LikeDto> likes;
+    private List<RetweetDto> retweets;
 }
