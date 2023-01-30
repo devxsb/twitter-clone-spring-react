@@ -12,6 +12,7 @@ import {
     ProfileIcon,
 } from "../icons/Icon";
 import twitterLogo from "../images/twitter.svg";
+import {useNavigate} from "react-router-dom";
 
 const sideLinks = [
     {
@@ -50,15 +51,44 @@ const sideLinks = [
 
 const Sidebar = () => {
     const [active, setActive] = useState("Home");
-
+    const navigate = useNavigate()
     const handleMenuItemClick = (name) => {
         setActive(name);
+        switch (name) {
+            case "Home":
+                navigate("/");
+                break;
+            case "Explore":
+                navigate("/explore");
+                break;
+            case "Notifications":
+                navigate("/notifications");
+                break;
+            case "Messages":
+                navigate("/messages");
+                break;
+            case "Bookmarks":
+                navigate("/bookmarks");
+                break;
+            case "Lists":
+                navigate("/lists");
+                break;
+            case "Profile":
+                navigate("/profile");
+                break;
+            case "More":
+                navigate("/more");
+                break;
+            default:
+                navigate("/");
+        }
     };
 
     return (
         <div className="h-screen sticky top-0 flex flex-col justify-between w-72 px-2">
             <div>
-                <div className="mt-1 mb-4 ml-1 flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-lightest transform transition-colors duration-200">
+                <div
+                    className="mt-1 mb-4 ml-1 flex items-center justify-center w-12 h-12 rounded-full hover:bg-gray-lightest transform transition-colors duration-200">
                     <img src={twitterLogo} alt="Twitter Logo" className="w-9 h-9"/>
                 </div>
                 <nav className="mb-4">
@@ -74,7 +104,8 @@ const Sidebar = () => {
                         ))}
                     </ul>
                 </nav>
-                <button className="bg-primary-base hover:bg-primary-dark text-white shadow-lg rounded-full py-3 px-8 w-11/12 transform transition-colors duration-200">
+                <button
+                    className="bg-primary-base hover:bg-primary-dark text-white shadow-lg rounded-full py-3 px-8 w-11/12 transform transition-colors duration-200">
                     Tweet
                 </button>
             </div>
