@@ -4,6 +4,7 @@ import TweetService from "../service/TweetService";
 import FeedList from "../components/FeedList";
 import CommentBox from "../components/CommentBox";
 import {ArrowBack} from "@mui/icons-material";
+import Divider from "../components/Divider";
 
 const Tweet = () => {
     const [tweet, setTweet] = useState()
@@ -31,6 +32,7 @@ const Tweet = () => {
                     className="w-11 h-11 rounded-full"/>
                 <CommentBox/>
             </div>
+            <Divider/>
             <div className="flex flex-col border-r border-l border-gray-extraLight w-full mr-auto">
                 {comments.content.length > 0 && <FeedList tweets={comments.content}/>}
             </div>
