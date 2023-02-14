@@ -13,6 +13,7 @@ import {
 } from "../icons/Icon";
 import twitterLogo from "../images/twitter.svg";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const sideLinks = [
     {
@@ -51,7 +52,11 @@ const sideLinks = [
 
 const Sidebar = () => {
     const [active, setActive] = useState("Home");
+
+    const currentUser = useSelector(state => state.reduxSlice.currentUser)
+
     const navigate = useNavigate()
+
     const handleMenuItemClick = (name) => {
         setActive(name);
         switch (name) {
@@ -74,7 +79,7 @@ const Sidebar = () => {
                 navigate("/lists");
                 break;
             case "Profile":
-                navigate("/profile");
+                navigate("/users/" + currentUser);
                 break;
             case "More":
                 navigate("/more");

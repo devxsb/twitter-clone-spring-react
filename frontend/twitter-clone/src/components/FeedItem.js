@@ -17,7 +17,8 @@ const FeedItem = ({
                       likes,
                       comments,
                       retweets,
-                      id
+                      id,
+                      userId
                   }) => {
     const [likeCount, setLikeCount] = useState(likes && likes.length);
     const [commentsCount, setCommentsCount] = useState(comments && comments.length);
@@ -68,7 +69,8 @@ const FeedItem = ({
     return (
         <>
             <article className="flex space-x-3 border-b border-gray-extraLight px-4 py-3 cursor-pointer">
-                <img src={profilePicture || defaultProfile} alt="Profile" className="w-11 h-11 rounded-full"/>
+                <img src={profilePicture || defaultProfile} alt="Profile" className="w-11 h-11 rounded-full"
+                     onClick={() => navigate("/users/" + userId)}/>
                 <div className="flex-1">
                     <div className="flex items-center text-sm">
                         <h4 className="font-bold">{name}</h4>

@@ -9,6 +9,7 @@ import Container from "./layout/Container";
 import Sidebar from "./layout/Sidebar";
 import Content from "./layout/Content";
 import Widgets from "./layout/Widgets";
+import User from "./pages/User";
 
 const App = () => {
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
@@ -20,6 +21,7 @@ const App = () => {
                     <Routes>
                         <Route path='*' element={<Content/>}/>
                         <Route path="/tweets/:id" element={<Tweet/>}/>
+                        <Route path="/users/:id" element={<User/>}/>
                     </Routes>
                     <Widgets/>
                 </Container> :
