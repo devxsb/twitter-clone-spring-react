@@ -51,6 +51,9 @@ public class UserService {
         inDB.setEmail(Optional.ofNullable(request.getEmail()).orElse(inDB.getEmail()));
         inDB.setPassword(Optional.ofNullable(request.getPassword()).orElse(inDB.getPassword()));
         inDB.setBirthday(Optional.ofNullable(request.getBirthday()).orElse(inDB.getBirthday()));
+        inDB.setBio(Optional.ofNullable(request.getBio()).orElse(inDB.getBio()));
+        inDB.setLocation(Optional.ofNullable(request.getLocation()).orElse(inDB.getLocation()));
+        inDB.setWebSite(Optional.ofNullable(request.getWebSite()).orElse(inDB.getWebSite()));
         return modelMapper.map(userRepository.save(inDB), UserDto.class);
     }
 

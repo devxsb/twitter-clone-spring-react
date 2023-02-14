@@ -22,4 +22,10 @@ public class UpdateUserRequest {
     private String password;
 
     private LocalDate birthday;
+
+    private String bio;
+
+    private String location;
+
+    private String webSite;
 }

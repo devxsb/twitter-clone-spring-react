@@ -27,6 +27,12 @@ public class User extends BaseEntity {
 
     private LocalDate birthday;
 
+    private String bio;
+
+    private String location;
+
+    private String webSite;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tweet> tweets;
 
