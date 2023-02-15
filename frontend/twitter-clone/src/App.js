@@ -19,9 +19,9 @@ const App = () => {
                 <Container>
                     <Sidebar/>
                     <Routes>
-                        <Route path='*' element={<Content/>}/>
+                        <Route path='/' element={<Content/>}/>
                         <Route path="/tweets/:id" element={<Tweet/>}/>
-                        <Route path="/users/:id" element={<User/>}/>
+                        <Route path=":username" element={<User/>}/>
                     </Routes>
                     <Widgets/>
                 </Container> :

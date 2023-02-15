@@ -10,13 +10,15 @@ import FeedList from "../components/FeedList";
 const User = () => {
     const [user, setUser] = useState()
     const [menu, setMenu] = useState(0) // 0 tweets 1 tweets & media 2 media 3 likes
-    const {id} = useParams()
+
+    const {username} = useParams()
+
     const navigate = useNavigate()
 
     useEffect(() => {
         let userService = new UserService()
-        userService.getUser(id).then(res => setUser(res.data))
-    }, [id])
+        userService.getUserByUsername(username).then(res => setUser(res.data))
+    }, [username])
 
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -25,7 +27,7 @@ const User = () => {
             {user &&
                 <>
                     <header
-                        className="sticky flex items-center top-0 z-10 bg-white p-2 border-b border-gray-extraLight ">
+                        className="sticky flex items-center top-0 z-10 bg-white p-2 h-16 border-b border-gray-extraLight ">
                         <ArrowBackIcon
                             style={{cursor: "pointer", marginRight: "10px", marginLeft: "5px"}}
                             fontSize={"small"}
