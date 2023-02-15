@@ -29,6 +29,7 @@ public class AuthService {
                     .builder()
                     .accessToken(tokenService.generateToken(auth))
                     .userId(userService.findUserByUsername(request.getUsername()).getId())
+                    .username(request.getUsername())
                     .build();
         } catch (final BadCredentialsException badCredentialsException) {
             throw new WrongCredentialsException("Invalid Username or Password");
