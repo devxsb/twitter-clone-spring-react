@@ -82,7 +82,7 @@ const Sidebar = () => {
                 navigate("/" + username);
                 break;
             case "More":
-                navigate("/more");
+                navigate("/");
                 break;
             default:
                 navigate("/");
