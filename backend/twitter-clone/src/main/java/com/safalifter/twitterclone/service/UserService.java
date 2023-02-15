@@ -39,9 +39,13 @@ public class UserService {
                 .map(x -> modelMapper.map(x, UserDto.class));
     }
 
-    public UserDto getUserById(Long id) {
+    public UserDto getUserById(Long id) { // will be used
         User inDB = findUserById(id);
         return modelMapper.map(inDB, UserDto.class);
+    }
+
+    public UserDto getUserByUsername(String username) {
+        return modelMapper.map(findUserByUsername(username), UserDto.class);
     }
 
     public UserDto updateUserById(Long id, UpdateUserRequest request) {
