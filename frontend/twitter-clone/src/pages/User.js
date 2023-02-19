@@ -70,22 +70,22 @@ const User = () => {
                     </div>
                     <div className="flex justify-around p-2">
                         <button
-                            className="border-b placeholder-gray-dark bg-transparent focus:outline-none text-sm"
+                            className="bg-transparent focus:outline-none text-sm"
                             onClick={() => setMenu(0)}>
                             Tweets
                         </button>
                         <button
-                            className="border-b placeholder-gray-dark bg-transparent focus:outline-none text-sm"
+                            className="bg-transparent focus:outline-none text-sm"
                             onClick={() => setMenu(1)}>
                             Tweets & replies
                         </button>
                         <button
-                            className="border-b placeholder-gray-dark bg-transparent focus:outline-none text-sm"
+                            className="bg-transparent focus:outline-none text-sm"
                             onClick={() => setMenu(2)}>
                             Media
                         </button>
                         <button
-                            className="border-b placeholder-gray-dark bg-transparent focus:outline-none text-sm"
+                            className="bg-transparent focus:outline-none text-sm"
                             onClick={() => setMenu(3)}>
                             Likes
                         </button>
