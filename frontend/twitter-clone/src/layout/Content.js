@@ -4,10 +4,15 @@ import FeedList from "../components/FeedList";
 import TweetBox from "../components/TweetBox";
 import {PopulerIcon} from "../icons/Icon";
 import TweetService from "../service/TweetService";
+import profile from "../images/default-profile.png";
+import {useSelector} from "react-redux";
 
 const Content = () => {
     const [tweets, setTweets] = useState({content: []});
     const [render, setRender] = useState(false)
+
+    const username = useSelector(state => state.reduxSlice.username)
+    const profileImageLink = useSelector(state => state.reduxSlice.profileImageLink)
 
     useEffect(() => {
         let tweetService = new TweetService()
@@ -27,7 +32,7 @@ const Content = () => {
             </header>
             <div className="flex space-x-4 px-4 py-3">
                 <img
-                    src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
+                    src={profileImageLink ? `http://localhost:8080/v1/users/${username}/image/download` : profile}
                     alt="Profile"
                     className="w-11 h-11 rounded-full"
                 />

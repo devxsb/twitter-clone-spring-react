@@ -6,6 +6,7 @@ export const reduxSlice = createSlice({
         currentUser: localStorage.getItem('currentUser'),
         username: localStorage.getItem('username'),
         accessToken: localStorage.getItem('accessToken'),
+        profileImageLink: localStorage.getItem('profileImageLink')
     },
     reducers: {
         login: (state, action) => {
@@ -20,11 +21,17 @@ export const reduxSlice = createSlice({
             localStorage.removeItem('currentUser')
             localStorage.removeItem("username")
             localStorage.removeItem('accessToken')
+            localStorage.removeItem('profileImageLink')
             state.currentUser = undefined
             state.username = undefined
             state.accessToken = undefined
-        }
+            state.profileImageLink = undefined
+        },
+        setUserDetails: (state, action) => {
+            localStorage.setItem('profileImageLink', action.payload.profileImageLink)
+            state.profileImageLink = action.payload.profileImageLink
+        },
     }
 })
-export const {login, logout} = reduxSlice.actions
+export const {login, logout, setUserDetails} = reduxSlice.actions
 export default reduxSlice.reducer

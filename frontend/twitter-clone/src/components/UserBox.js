@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../redux/reduxSlice";
+import {logout, setUserDetails} from "../redux/reduxSlice";
 import UserService from "../service/UserService";
 import {useNavigate} from "react-router-dom";
+import profile from "../images/default-profile.png"
 
 const UserBox = () => {
     const username = useSelector(state => state.reduxSlice.username)
@@ -12,12 +13,16 @@ const UserBox = () => {
 
     useEffect(() => {
         let userService = new UserService()
-        userService.getUserByUsername(username).then(res => setUser(res.data))
+        userService.getUserByUsername(username).then(res => {
+            setUser(res.data)
+            dispatch(setUserDetails(res.data))
+        })
     }, [username])
 
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
+
     const logoutClick = () => {
         dispatch(logout())
     }
@@ -28,7 +33,7 @@ const UserBox = () => {
                     className="flex items-center mb-6 hover:bg-primary-light cursor-pointer rounded-full py-2 px-4 transform transition-colors duration-200"
                     onClick={() => navigate("/" + user.username)}>
                     <img
-                        src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
+                        src={user.profileImageLink ? `http://localhost:8080/v1/users/${username}/image/download` : profile}
                         alt="Profile"
                         className="w-11 h-11 rounded-full"
                     />
