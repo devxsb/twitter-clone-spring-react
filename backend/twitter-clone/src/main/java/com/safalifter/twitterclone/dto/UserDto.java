@@ -19,4 +19,5 @@ public class UserDto {
     private LocalDateTime creationTimestamp;
     private List<TweetDto> tweets;
     private List<LikeDto> likes;
+    private String profileImageLink;
 }

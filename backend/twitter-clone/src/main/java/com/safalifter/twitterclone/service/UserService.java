@@ -66,6 +66,12 @@ public class UserService {
         userRepository.delete(inDB);
     }
 
+    public void updateUserProfileImage(String file, String username) {
+        User inDB = findUserByUsername(username);
+        inDB.setProfileImageLink(file);
+        userRepository.save(inDB);
+    }
+
     protected User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found!"));
     }

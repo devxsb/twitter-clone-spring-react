@@ -33,6 +33,8 @@ public class User extends BaseEntity {
 
     private String webSite;
 
+    private String profileImageLink;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tweet> tweets;
 
