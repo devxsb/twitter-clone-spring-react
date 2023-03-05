@@ -2,14 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import UserService from "../service/UserService";
 import bg from "../images/defaul-bg.png"
+import profile from "../images/default-profile.png"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Divider from "../components/Divider";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FeedList from "../components/FeedList";
+import {Close} from "@mui/icons-material";
+import MyDropzone from "../components/MyDropzone";
 
 const User = () => {
     const [user, setUser] = useState()
     const [menu, setMenu] = useState(0) // 0 tweets 1 tweets & media 2 media 3 likes
+    const [edit, setEdit] = useState(false)
 
     const {username} = useParams()
 
@@ -23,7 +27,7 @@ const User = () => {
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return (
-        <div className={"flex flex-col border-r border-l border-gray-extraLight w-1/2 mr-auto"}>
+        <div className={"flex flex-col border-r border-l border-gray-extraLight w-1/2 mr-auto relative"}>
             {user &&
                 <>
                     <header
@@ -44,7 +48,7 @@ const User = () => {
                         backgroundSize: "cover"
                     }}>
                         <img
-                            src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
+                            src={user.profileImageLink ? `http://localhost:8080/v1/users/${username}/image/download` : profile}
                             alt="Profile"
                             className="w-28 h-28 rounded-full mt-36 ml-3 absolute"
                         />
@@ -52,7 +56,8 @@ const User = () => {
                     <div className="mb-3">
                         <button
                             className="float-right h-10 bg-transparent py-2 px-4 rounded-2xl mt-1 mr-1 font-bold text-sm"
-                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}}>Edit profile
+                            style={{color: "#1DA1F2", border: `1px solid #1DA1F2`}}
+                            onClick={() => setEdit(!edit)}>Edit profile
                         </button>
                         <div className="mt-16 ml-3">
                             <span className="font-bold block mb-0">{user.name}</span>
@@ -62,10 +67,10 @@ const User = () => {
                                 <CalendarMonthIcon fontSize="small"
                                                    style={{color: "lightslategrey", marginRight: "3px"}}/>
                                 Joined {month[new Date(user.creationTimestamp).getUTCMonth()]} {new Date(user.creationTimestamp).getFullYear()}</span>
-                           <div className="flex items-center">
-                               0 <span className="mr-2 p-1 text-sm font-light">Following</span>
-                               0 <span className="text-sm p-1 font-light">Followers</span>
-                           </div>
+                            <div className="flex items-center">
+                                0 <span className="mr-2 p-1 text-sm font-light">Following</span>
+                                0 <span className="text-sm p-1 font-light">Followers</span>
+                            </div>
                         </div>
                     </div>
                     <div className="flex justify-around p-2">
@@ -92,6 +97,36 @@ const User = () => {
                     </div>
                     <Divider/>
                     <FeedList tweets={user.tweets}/>
+                    {edit &&
+                        <>
+                            <div
+                                className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                <div className="relative my-6 mx-auto w-96">
+                                    <div
+                                        className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                        <div className="p-6 flex-auto" onSubmit={() => setEdit(false)}>
+                                            <Close className="mb-1" onClick={() => setEdit(false)}/>
+                                            <div className="h-36 flex relative" style={{
+                                                backgroundImage: `url(${bg}`,
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundSize: "cover"
+                                            }}>
+                                                <div className="w-16 h-16 mt-28 ml-1 relative">
+                                                    <img
+                                                        src={user.profileImageLink ? `http://localhost:8080/v1/users/${username}/image/download` : profile}
+                                                        alt="Profile"
+                                                        className="w-16 h-16 rounded-full"
+                                                    />
+                                                    <MyDropzone/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="opacity-10 fixed inset-0 z-40 bg-black"/>
+                        </>
+                    }
                 </>
             }
         </div>
