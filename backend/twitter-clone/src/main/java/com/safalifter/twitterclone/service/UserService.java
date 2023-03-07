@@ -48,13 +48,9 @@ public class UserService {
         return modelMapper.map(findUserByUsername(username), UserDto.class);
     }
 
-    public UserDto updateUserById(Long id, UpdateUserRequest request) {
+    public UserDto updateUserById(Long id, UpdateUserRequest request) { // password and username will be added
         User inDB = findUserById(id);
         inDB.setName(Optional.ofNullable(request.getName()).orElse(inDB.getName()));
-        inDB.setUsername(Optional.ofNullable(request.getUsername()).orElse(inDB.getUsername()));
-        inDB.setEmail(Optional.ofNullable(request.getEmail()).orElse(inDB.getEmail()));
-        inDB.setPassword(Optional.ofNullable(request.getPassword()).orElse(inDB.getPassword()));
-        inDB.setBirthday(Optional.ofNullable(request.getBirthday()).orElse(inDB.getBirthday()));
         inDB.setBio(Optional.ofNullable(request.getBio()).orElse(inDB.getBio()));
         inDB.setLocation(Optional.ofNullable(request.getLocation()).orElse(inDB.getLocation()));
         inDB.setWebSite(Optional.ofNullable(request.getWebSite()).orElse(inDB.getWebSite()));
