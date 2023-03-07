@@ -12,4 +12,8 @@ export default class UserService {
             }
         })
     }
+
+    editProfile(body, id) {
+        return axios.put(`/users/${id}`, body)
+    }
 }
