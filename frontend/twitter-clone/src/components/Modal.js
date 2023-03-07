@@ -19,7 +19,7 @@ export default function Modal({icon, setCount, id, profilePicture, box}) {
                                     <Close className="mb-1" onClick={() => setShowModal(false)}/>
                                     <div className="flex space-x-4 px-4 py-3">
                                         <img
-                                            src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
+                                            src={profilePicture}
                                             alt="Profile"
                                             className="w-11 h-11 rounded-full"/>
                                         {box.toString() === "comment" ?

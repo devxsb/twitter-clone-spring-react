@@ -5,6 +5,7 @@ import FeedList from "../components/FeedList";
 import CommentBox from "../components/CommentBox";
 import {ArrowBack} from "@mui/icons-material";
 import Divider from "../components/Divider";
+import {useSelector} from "react-redux";
 
 const Tweet = () => {
     const [tweet, setTweet] = useState()
@@ -12,6 +13,7 @@ const Tweet = () => {
 
     const {id} = useParams();
     const navigate = useNavigate()
+    const username = useSelector(state => state.reduxSlice.username)
 
     useEffect(() => {
         let tweetService = new TweetService()
@@ -27,7 +29,7 @@ const Tweet = () => {
             </header>
             <div className="flex space-x-4 px-4 py-3">
                 <img
-                    src="https://pbs.twimg.com/profile_images/1617244452027879425/cODTtPoH_400x400.jpg"
+                    src={`http://localhost:8080/v1/users/${username}/image/download`}
                     alt="Profile"
                     className="w-11 h-11 rounded-full"/>
                 <CommentBox/>

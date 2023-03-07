@@ -6,9 +6,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LikeService from "../service/LikeService";
 import Modal from "./Modal";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const FeedItem = ({
-                      profilePicture,
                       text,
                       name,
                       image,
@@ -27,6 +27,8 @@ const FeedItem = ({
     const [likeId, setLikeId] = useState(undefined)
 
     const navigate = useNavigate()
+
+    const currentUser = useSelector(state => state.reduxSlice.username)
 
     const likeClick = () => {
         let likeService = new LikeService()
@@ -89,7 +91,9 @@ const FeedItem = ({
                                 <div
                                     className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-primary-light">
                                     <ReplyIcon className="w-5 h-5 group-hover:text-primary-base"/>
-                                </div>} setCount={setCommentCountFunc} profilePicture={profilePicture} id={id}
+                                </div>} setCount={setCommentCountFunc}
+                                   profilePicture={userProfileImageLink ? `http://localhost:8080/v1/users/${currentUser}/image/download` : profile}
+                                   id={id}
                                    box="comment"/>
                             <span className="group-hover:text-primary-base">{commentsCount}</span>
                         </li>
@@ -99,7 +103,7 @@ const FeedItem = ({
                                 <div
                                     className="flex items-center justify-center w-8 h-8 rounded-full group-hover:bg-green-200 ">
                                     <ReTweetIcon className="w-5 h-5 group-hover:text-green-400"/>
-                                </div>} setCount={setRetweetsCountFunc} profilePicture={profilePicture} id={id}
+                                </div>} setCount={setRetweetsCountFunc} profilePicture={userProfileImageLink ? `http://localhost:8080/v1/users/${currentUser}/image/download` : profile} id={id}
                                    box="retweet"/>
                             <span className="group-hover:text-primary-base">{retweetsCount}</span>
                         </li>
